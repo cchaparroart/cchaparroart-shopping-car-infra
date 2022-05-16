@@ -9,7 +9,7 @@ terraform {
   }
 
   cloud {
-    organization = "CONDOR"
+    organization = "cchaparro"
 
     workspaces {
       name = "gh-demo-shopping"
