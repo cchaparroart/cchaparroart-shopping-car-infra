@@ -7,6 +7,7 @@ on:
 jobs:
   terraform:
     name: 'Terraform'
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -37,7 +38,7 @@ jobs:
       continue-on-error: true
 
     - name: Update Pull Request
-      uses: actions/github-script@6.1.0
+      uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
