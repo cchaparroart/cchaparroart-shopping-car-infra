@@ -1,2 +1,2 @@
-stack_id="prod"
-layer="shoppingCar"
+stack_id = "prod"
+layer    = "shoppingCar"
