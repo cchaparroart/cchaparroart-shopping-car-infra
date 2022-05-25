@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "task_shopping_car" {
   memory                   = var.fargate_memory
   task_role_arn            = aws_iam_role.task_role_arn.arn
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  container_definitions = <<DEFINITION
+  container_definitions    = <<DEFINITION
 [
   {
     "cpu": ${var.fargate_cpu},
@@ -46,13 +46,13 @@ resource "aws_alb_target_group" "target_group_shopping_car" {
   target_type = "ip"
 
   health_check {
-    path = "/documentos/actuator/health"
-    port = "traffic-port"
-    healthy_threshold = 2
+    path                = "/documentos/actuator/health"
+    port                = "traffic-port"
+    healthy_threshold   = 2
     unhealthy_threshold = 5
-    timeout = 60
-    interval = 120
-    matcher = "200"  # has to be HTTP 200 or fails
+    timeout             = 60
+    interval            = 120
+    matcher             = "200" # has to be HTTP 200 or fails
   }
 
   tags = {
@@ -62,16 +62,16 @@ resource "aws_alb_target_group" "target_group_shopping_car" {
 }
 
 resource "aws_alb_listener_rule" "listener_rule_shopping_car" {
-    listener_arn = var.aws_alb_default_listener
-    action {    
-      type             = "forward"    
-      target_group_arn = aws_alb_target_group.target_group_shopping_car.arn
-    }   
-    condition {    
-      path_pattern {
-        values = ["/documentos/*"]
-      }
+  listener_arn = var.aws_alb_default_listener
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.target_group_shopping_car.arn
+  }
+  condition {
+    path_pattern {
+      values = ["/documentos/*"]
     }
+  }
 }
 
 resource "aws_ecs_service" "shopping_car" {
@@ -82,8 +82,8 @@ resource "aws_ecs_service" "shopping_car" {
   launch_type     = "FARGATE"
 
   network_configuration {
-       security_groups = [var.aws_security_group]
-       subnets         = split(",", var.aws_subnet)
+    security_groups = [var.aws_security_group]
+    subnets         = split(",", var.aws_subnet)
   }
 
   load_balancer {
